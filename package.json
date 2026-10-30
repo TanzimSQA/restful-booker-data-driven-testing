@@ -1,0 +1,30 @@
+{
+  "name": "restful-booker-data-driven-testing",
+  "version": "1.0.0",
+  "description": "Production-grade Data-Driven Testing (DDT) framework for Restful Booker API using Postman, Newman CLI, CSV parametrization, and automated HTML reporting.",
+  "scripts": {
+    "test": "newman run \"Restful Booker API.postman_collection.json\" -e \"RestfulBooker_Env.postman_environment.json\" -d \"Datasheet-for-DDT - Sheet1.csv\" -n 5 --delay-request 300",
+    "test:full": "newman run \"Restful Booker API.postman_collection.json\" -e \"RestfulBooker_Env.postman_environment.json\" -d \"Datasheet-for-DDT - Sheet1.csv\" --delay-request 300",
+    "test:report": "newman run \"Restful Booker API.postman_collection.json\" -e \"RestfulBooker_Env.postman_environment.json\" -d \"Datasheet-for-DDT - Sheet1.csv\" -n 5 --delay-request 300 -r cli,htmlextra --reporter-htmlextra-export ./reports/Restful_Booker_DDT_Newman_Report.html --reporter-htmlextra-title \"Restful Booker Data-Driven Testing (DDT) Report\""
+  },
+  "keywords": [
+    "postman",
+    "newman",
+    "data-driven-testing",
+    "ddt",
+    "api-testing",
+    "rest-api",
+    "sqa",
+    "csv-testing",
+    "restful-booker",
+    "htmlextra",
+    "github-actions",
+    "ci-cd"
+  ],
+  "author": "Tanzim Rahman (TanzimSQA)",
+  "license": "MIT",
+  "devDependencies": {
+    "newman": "^6.2.3",
+    "newman-reporter-htmlextra": "^1.23.1"
+  }
+}

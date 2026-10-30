@@ -1,0 +1,46 @@
+name: Restful Booker Data-Driven Testing (DDT)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  ddt-tests:
+    name: Run Restful Booker DDT Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Newman & Reporters
+        run: |
+          npm install -g newman newman-reporter-htmlextra
+
+      - name: Run Newman DDT Tests & Generate Report
+        run: |
+          mkdir -p reports
+          newman run "Restful Booker API.postman_collection.json" \
+            -e "RestfulBooker_Env.postman_environment.json" \
+            -d "Datasheet-for-DDT - Sheet1.csv" \
+            -n 5 \
+            --delay-request 300 \
+            -r cli,htmlextra \
+            --reporter-htmlextra-export ./reports/Restful_Booker_DDT_Newman_Report.html \
+            --reporter-htmlextra-title "Restful Booker Data-Driven Testing Report"
+
+      - name: Upload Test Report Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: restful-booker-ddt-newman-report
+          path: ./reports/Restful_Booker_DDT_Newman_Report.html
+          retention-days: 30
